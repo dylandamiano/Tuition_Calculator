@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 class College {
     // set cost of attendance
@@ -30,6 +31,7 @@ class College {
 };
 
 College::College(std::string name) {
+    College::college_name = name;
     std::cout << name << " [College] object has been created!" << std::endl;
 }
 
@@ -72,8 +74,12 @@ std::string commands[] = {
     "set-name",
     "set-scholarship",
     "get-scholarship",
-    "calculate"
+    "calculate",
+    "add-college",
+    "find-college"
 };
+
+static std::vector<College> college_list;
 
 void calculator_help() {
     std::cout << "Commands that are readibly available: " << std::endl;
@@ -83,24 +89,45 @@ void calculator_help() {
     }
 }
 
-std::string calculator_match(std::string userinput) {
-    for (int i = 0; i < sizeof(commands); i++) {
-        if (commands[i] == userinput) {
-
-        }
-    }
+void fetch_college() {
+    for (int i = 0; i < college_list.size(); i++) {
+        std::cout << "[" << i << "]" <<  " COLLEGE NAME: " << college_list.at(i).get_name() << std::endl;
+    } 
 }
 
-int command(std::string userinput) {
+template <typename T> T command(std::string userinput) {
     if (userinput == "test") {
         std::cout << userinput << " has been outputted!" << std::endl;
     } else if (userinput == "stop") {
         std::cout << userinput << " exiting application!" << std::endl;
         return 0;
-    } else if (calculator_match(userinput) == "get") {
+    } else if (userinput == "help") {
+        calculator_help();
+    } else if (userinput == "get-tuition") {
+        
+    } else if (userinput == "set-tuition") {
 
-    } else if (calculator_match(userinput) == "set") {
+    } else if (userinput == "get-name") {
 
+    } else if (userinput == "set-name") {
+
+    } else if (userinput == "get-scholarship") {
+
+    } else if (userinput == "set-scholarship") {
+
+    } else if (userinput == "calculate") {
+
+    } else if (userinput == "add-college") {
+        std::cout << "Name of college: ";
+
+        std::string name;
+        std::cin >> name;
+
+        College temp = College(name);
+        college_list.push_back(temp);
+
+    } else if (userinput == "find-college") {
+        fetch_college();
     } else {
         std::cout << "Command not recognized!" << std::endl;
     }
@@ -108,7 +135,13 @@ int command(std::string userinput) {
 
 int main() {
     std::cout << "Welcome to the my personal College Tuition Calculator!" << std::endl;
+
     College stored = College("Yes");
+    // College *selected;
+    
+    college_list.push_back(stored);
+
+    fetch_college();
 
     std::cout << stored.get_name() << std::endl;
 
@@ -116,12 +149,9 @@ int main() {
         std::string userinput;
         std::cin >> userinput;
 
-        if (command(userinput) == 0) {
-            break;
-        }
+        command<int>(userinput);
     }
 
-    calculator_help();
     std::cout << "Press any key to leave!" << std::endl;
 
     return 0;
