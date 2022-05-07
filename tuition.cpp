@@ -76,15 +76,19 @@ std::string commands[] = {
     "get-scholarship",
     "calculate",
     "add-college",
-    "find-college"
+    "find-college",
+    "select-college"
 };
 
 static std::vector<College> college_list;
+static College *selected;
+
+static std::string userinput;
 
 void calculator_help() {
     std::cout << "Commands that are readibly available: " << std::endl;
 
-    for (int i = 0; i < sizeof(commands); i++) {
+    for (int i = 0; i < sizeof(commands) - 1; i++) {
         std::cout << commands[i] << std::endl;
     }
 }
@@ -95,12 +99,11 @@ void fetch_college() {
     } 
 }
 
-template <typename T> T command(std::string userinput) {
+void command() {
     if (userinput == "test") {
         std::cout << userinput << " has been outputted!" << std::endl;
     } else if (userinput == "stop") {
         std::cout << userinput << " exiting application!" << std::endl;
-        return 0;
     } else if (userinput == "help") {
         calculator_help();
     } else if (userinput == "get-tuition") {
@@ -108,14 +111,27 @@ template <typename T> T command(std::string userinput) {
     } else if (userinput == "set-tuition") {
 
     } else if (userinput == "get-name") {
-
+        
     } else if (userinput == "set-name") {
-
+        
     } else if (userinput == "get-scholarship") {
-
+        
     } else if (userinput == "set-scholarship") {
+        std::cout << "Scholarship (by year): ";
+
+        int years;
+        std::cin >> years;
+
+        //College temp = College(name);
+        //college_list.push_back(temp);
 
     } else if (userinput == "calculate") {
+        std::cout << "Number of years attending as # (ex. 4): ";
+
+        int years;
+        std::cin >> years;
+
+        //college_list.push_back(temp);
 
     } else if (userinput == "add-college") {
         std::cout << "Name of college: ";
@@ -127,29 +143,30 @@ template <typename T> T command(std::string userinput) {
         college_list.push_back(temp);
 
     } else if (userinput == "find-college") {
-        fetch_college();
+        
+        if ( college_list.size() - 1 >= 0) {
+            for (int i = 0; i < college_list.size(); i++) {
+                std::cout << "[" << i << "]" <<  " COLLEGE NAME: " << college_list[i].get_name() << std::endl;
+            } 
+        }
+
+    } else if (userinput == "select-college") {
+        
     } else {
         std::cout << "Command not recognized!" << std::endl;
+        
     }
 }
 
 int main() {
     std::cout << "Welcome to the my personal College Tuition Calculator!" << std::endl;
-
-    College stored = College("Yes");
-    // College *selected;
-    
-    college_list.push_back(stored);
-
-    fetch_college();
-
-    std::cout << stored.get_name() << std::endl;
-
+    std::cout << college_list.size();
     while (true) {
-        std::string userinput;
         std::cin >> userinput;
+        
+        command();
 
-        command<int>(userinput);
+        userinput = "";
     }
 
     std::cout << "Press any key to leave!" << std::endl;
